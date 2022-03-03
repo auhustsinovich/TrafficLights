@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum CurrentLightColor {
+    case red, yellow, green
+}
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var redLight: UIView!
@@ -15,45 +19,47 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var trafficButton: UIButton!
     
-    var currentLightColor = CurrentLightColor.red
-    
-    enum CurrentLightColor {
-        case red, yellow, green
-    }
+    private let lightEnable: CGFloat = 1
+    private let lightDisable: CGFloat = 0.3
+    private var currentLightColor = CurrentLightColor.red
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         trafficButton.setTitle("START", for: .normal)
-        redLight.alpha = 0.3
-        yellowLight.alpha = 0.3
-        greenLight.alpha = 0.3
         trafficButton.layer.cornerRadius = 20
         
+        redLight.alpha = lightDisable
+        yellowLight.alpha = lightDisable
+        greenLight.alpha = lightDisable
+    }
+    
+    override func viewDidLayoutSubviews() {
         redLight.layer.cornerRadius = redLight.bounds.height / 2
         yellowLight.layer.cornerRadius = yellowLight.bounds.height / 2
         greenLight.layer.cornerRadius = greenLight.bounds.height / 2
     }
-
+    
     @IBAction func trafficButtonPressed() {
         trafficButton.setTitle("NEXT", for: .normal)
         
         switch currentLightColor {
         case .red:
             currentLightColor = .yellow
-            redLight.alpha = 1
-            yellowLight.alpha = 0.3
-            greenLight.alpha = 0.3
+            redLight.alpha = lightEnable
+            yellowLight.alpha = lightDisable
+            greenLight.alpha = lightDisable
         case .yellow:
             currentLightColor = .green
-            yellowLight.alpha = 1
-            redLight.alpha = 0.3
+            yellowLight.alpha = lightEnable
+            redLight.alpha = lightDisable
         case .green:
             currentLightColor = .red
-            greenLight.alpha = 1
-            redLight.alpha = 0.3
-            yellowLight.alpha = 0.3
+            greenLight.alpha = lightEnable
+            redLight.alpha = lightDisable
+            yellowLight.alpha = lightDisable
         }
     }
 }
+
 
